@@ -28,6 +28,7 @@
   var defaults = {
       topSpacing: 0,
       bottomSpacing: 0,
+      stickAfter: 0,
       className: 'is-sticky',
       wrapperClassName: 'sticky-wrapper',
       center: false,
@@ -49,12 +50,13 @@
       for (var i = 0, l = sticked.length; i < l; i++) {
         var s = sticked[i],
           elementTop = s.stickyWrapper.offset().top,
-          etse = elementTop - s.topSpacing - extra;
+          etse = elementTop - s.topSpacing - extra,
+          scrolledAmount = Math.max(0, (scrollTop - etse));
 
         //update height in case of dynamic content
         s.stickyWrapper.css('height', s.stickyElement.outerHeight());
 
-        if (scrollTop <= etse) {
+        if (scrollTop <= etse || scrolledAmount < s.stickAfter) {
           if (s.currentTop !== null) {
             s.stickyElement
               .css({
