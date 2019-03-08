@@ -35,7 +35,8 @@
       getWidthFrom: '',
       widthFromWrapper: true, // works only when .getWidthFrom is empty
       responsiveWidth: false,
-      zIndex: 'inherit'
+      zIndex: 'inherit',
+      wrapperHeightCallback: null
     },
     $window = $(window),
     $document = $(document),
@@ -54,7 +55,11 @@
           scrolledAmount = Math.max(0, (scrollTop - etse));
 
         //update height in case of dynamic content
-        s.stickyWrapper.css('height', s.stickyElement.outerHeight());
+        if (typeof s.wrapperHeightCallback === 'function') {
+          s.stickyWrapper.css('height', s.wrapperHeightCallback());
+        } else {
+          s.stickyWrapper.css('height', s.stickyElement.outerHeight());
+        }
 
         if (scrollTop <= etse || scrolledAmount < s.stickAfter) {
           if (s.currentTop !== null) {
